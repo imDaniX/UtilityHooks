@@ -1,0 +1,8 @@
+name: UtilityHooks
+version: '${project.version}'
+description: '${project.description}'
+main: me.imdanix.utilityhooks.UtilityHooksPaper
+api-version: '1.20'
+author: imDaniX
+softdepend:
+  - PlaceholderAPI

@@ -24,11 +24,6 @@ public abstract class FormatExpansionBase extends ExpansionBase implements Relat
     }
 
     @Override
-    public String onPlaceholderRequest(Player player, @NotNull String params) {
-        return onRequest(player, params);
-    }
-
-    @Override
     public String onRequest(@Nullable OfflinePlayer player, @NotNull String params) {
         return commonRequestLogic(params, this::getExpansion, (e, str) -> e.onRequest(player, str));
     }

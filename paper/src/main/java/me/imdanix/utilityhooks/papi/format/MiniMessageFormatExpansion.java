@@ -15,6 +15,7 @@ public class MiniMessageFormatExpansion extends FormatExpansionBase {
     public @NotNull String getVersion() {
         return "1.0";
     }
+
     @Override
     protected @NotNull String reformat(@NotNull String str) {
         return miniMessage().serialize(

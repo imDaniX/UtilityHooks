@@ -16,7 +16,6 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 public class CacheExpansionTest {
-
     private final Player mockPlayer = mock(Player.class);
     private final PlaceholderExpansion mockExpansion = mock(PlaceholderExpansion.class);
     private final CacheExpansion extension = new CacheExpansion() {

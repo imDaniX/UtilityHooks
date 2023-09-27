@@ -1,12 +1,11 @@
 package me.imdanix.utilityhooks.papi.cache;
 
+import me.clip.placeholderapi.expansion.Cacheable;
+import me.clip.placeholderapi.expansion.Cleanable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.imdanix.utilityhooks.papi.ExpansionBase;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,18 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.lang.System.currentTimeMillis;
 
-public class CacheExpansion extends ExpansionBase implements Listener {
-    private static final UUID ZERO_UUID = new UUID(0,0);
+public class CacheExpansion extends ExpansionBase implements Cacheable, Cleanable {
+    private static final UUID ZERO_UUID = new UUID(0, 0);
     private static final int OFFSET_INDEX = 0;
     private static final int PLACEHOLDER_INDEX = 1;
     private static final int PARAMETERS_INDEX = 2;
 
     private final Map<UUID, Map<String, CachedResult>> cache = new ConcurrentHashMap<>();
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        cache.remove(event.getPlayer().getUniqueId());
-    }
 
     @Override
     public @NotNull String getIdentifier() {
@@ -36,12 +30,7 @@ public class CacheExpansion extends ExpansionBase implements Listener {
 
     @Override
     public @NotNull String getVersion() {
-        return "1.2";
-    }
-
-    @Override
-    public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
-        return onRequest(player, params);
+        return "1.3";
     }
 
     @Override
@@ -75,5 +64,15 @@ public class CacheExpansion extends ExpansionBase implements Listener {
             playerCache.put(params, result);
         }
         return result.value();
+    }
+
+    @Override
+    public void clear() {
+        cache.clear();
+    }
+
+    @Override
+    public void cleanup(Player player) {
+        cache.remove(player.getUniqueId());
     }
 }

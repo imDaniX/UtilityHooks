@@ -3,7 +3,7 @@ package me.imdanix.utilityhooks.papi.format;
 import org.jetbrains.annotations.NotNull;
 
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
-import static net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacyAmpersand;
+import static net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection;
 
 public class MiniMessageFormatExpansion extends FormatExpansionBase {
     @Override
@@ -19,7 +19,7 @@ public class MiniMessageFormatExpansion extends FormatExpansionBase {
     @Override
     protected @NotNull String reformat(@NotNull String str) {
         return miniMessage().serialize(
-                legacyAmpersand().deserialize(str.replace('§', '&'))
+                legacySection().deserialize(str)
         );
     }
 }

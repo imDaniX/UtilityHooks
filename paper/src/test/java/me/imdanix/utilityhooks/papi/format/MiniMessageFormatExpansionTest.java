@@ -35,9 +35,9 @@ public class MiniMessageFormatExpansionTest {
     @DataProvider
     public Object[][] onRequestData() {
         return new Object[][] {
-                {"&aHello", "<green>Hello"},
-                {"&aHello&x&1&2&3&4&5&6 World", "<green>Hello</green><#123456> World"},
-                {"&aHello&#123456 World", "<green>Hello</green><#123456> World"},
+                {"§aHello", "<green>Hello"},
+                {"§aHello§x§1§2§3§4§5§6 World", "<green>Hello</green><#123456> World"},
+                {"§aHello§#123456 World", "<green>Hello</green><#123456> World"},
                 {"Test", "Test"},
                 {null, null}
         };

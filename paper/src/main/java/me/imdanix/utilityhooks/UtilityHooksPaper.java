@@ -2,6 +2,7 @@ package me.imdanix.utilityhooks;
 
 import me.imdanix.utilityhooks.papi.cache.CacheExpansion;
 import me.imdanix.utilityhooks.papi.format.LegacyFormatExpansion;
+import me.imdanix.utilityhooks.papi.format.MiniMessageEscapeExpansion;
 import me.imdanix.utilityhooks.papi.format.MiniMessageFormatExpansion;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,16 +17,22 @@ public final class UtilityHooksPaper extends JavaPlugin {
     @Override
     public void onEnable() {
         PluginManager pluginManager = getServer().getPluginManager();
+        List<Hookable> toHook = new ArrayList<>();
         if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             getLogger().fine("PlaceholderAPI found. Registering expansions.");
-            hookables.addAll(Arrays.asList(
+            toHook.addAll(Arrays.asList(
                     new CacheExpansion(),
                     new LegacyFormatExpansion(),
-                    new MiniMessageFormatExpansion()
+                    new MiniMessageFormatExpansion(),
+                    new MiniMessageEscapeExpansion()
             ));
         }
 
-        hookables.forEach(Hookable::hook);
+        for (var hookable : toHook) {
+            if (hookable.hook()) {
+                hookables.add(hookable);
+            }
+        }
     }
 
     @Override

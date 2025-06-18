@@ -25,7 +25,6 @@ public class CacheExpansionTest {
         }
     };
 
-
     @BeforeClass
     public void setup() {
         when(mockPlayer.getUniqueId()).thenReturn(UUID.randomUUID());

@@ -54,15 +54,16 @@ public class CacheExpansion extends ExpansionBase implements Cacheable, Cleanabl
     private @Nullable String findResult(@Nullable OfflinePlayer player, long offset, @NotNull String phName, @NotNull String params) {
         UUID id = player == null ? ZERO_UUID : player.getUniqueId();
         var playerCache = cache.computeIfAbsent(id, (v) -> new ConcurrentHashMap<>());
-        CachedResult result = playerCache.get(params);
-        if (result == null || (offset != 0 && result.isOutdated(offset))) {
-            PlaceholderExpansion expansion = getExpansion(phName);
-            result = new CachedResult(
-                    expansion == null ? null : expansion.onRequest(player, params),
-                    currentTimeMillis()
-            );
-            playerCache.put(params, result);
-        }
+        CachedResult result = playerCache.compute(params, (k, existing) -> {
+            if (existing == null || (offset != 0 && existing.isOutdated(offset))) {
+                PlaceholderExpansion expansion = getExpansion(phName);
+                return new CachedResult(
+                        expansion == null ? null : expansion.onRequest(player, params),
+                        currentTimeMillis()
+                );
+            }
+            return existing;
+        });
         return result.value();
     }
 
